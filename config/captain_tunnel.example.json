@@ -1,0 +1,25 @@
+{
+  "server": {
+    "host": "jump.example.com",
+    "port": 22,
+    "user": "your-user",
+    "auth": "password",
+    "key_file": "",
+    "remember_password": false,
+    "password_dpapi": "",
+    "password_svc": "",
+    "keepalive_interval": 30,
+    "keepalive_count": 3
+  },
+  "autostart_on_launch": false,
+  "tunnels": [
+    {
+      "name": "[WEB] 개발망 예제",
+      "bind": "127.0.0.1",
+      "local_port": 18080,
+      "remote_host": "127.0.0.1",
+      "remote_port": 8080,
+      "auto": false
+    }
+  ]
+}

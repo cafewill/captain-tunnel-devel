@@ -1,0 +1,199 @@
+<!doctype html>
+<!-- Generated from Markdown. Edit the .md or this template, then rebuild. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="source-sha256" content="b78fb574a92acd10b37ae2e57efcc6cca69ff1217226899dd6bb04deccc29273">
+<meta name="template-sha256" content="1783f1de54add0313387d1515159f27db5707f857bc8b6bd3c63e0d10f50b27e">
+<title>원본 리뷰와 재구성 기록 · 캡틴 터널링 가이드</title>
+<script>
+(function(){try{
+ const r=document.documentElement, p='captain-tunnel-guide-';
+ const t=localStorage.getItem(p+'theme'), s=localStorage.getItem(p+'skin'), f=Number(localStorage.getItem(p+'font'));
+ if(['light','dark'].includes(t))r.dataset.theme=t;
+ if(['spring','summer','autumn','winter'].includes(s))r.dataset.skin=s;
+ if(f>=12&&f<=20)r.style.setProperty('--fz',f/15);
+}catch(e){}})();
+</script>
+<style>
+:root{color-scheme:light;--accent:#6db33f;--accent-ink:#387b20;--tint:#edf6e8;--bg:#fff;--panel:#f7f8f7;--ink:#202622;--muted:#657068;--line:#dfe5df;--code:#f2f5f1;--fz:1;--gutter:clamp(32px,3vw,64px)}
+:root[data-skin=spring]{--accent:#e0607e;--accent-ink:#a52e4a;--tint:#fff0f4}
+:root[data-skin=summer]{--accent:#1e9bd7;--accent-ink:#116b9a;--tint:#eaf7ff}
+:root[data-skin=autumn]{--accent:#d9731f;--accent-ink:#a44e0b;--tint:#fff4e8}
+:root[data-skin=winter]{--accent:#4a5fc1;--accent-ink:#354796;--tint:#f0f1ff}
+:root[data-theme=dark]{color-scheme:dark;--bg:#151b19;--panel:#1b2420;--ink:#e4ebe6;--muted:#a0afa5;--line:#35433a;--code:#202b24;--tint:#223023;--accent-ink:#a4d286}
+:root[data-theme=dark][data-skin=spring]{--tint:#35232a;--accent-ink:#f5a7ba}
+:root[data-theme=dark][data-skin=summer]{--tint:#1d303b;--accent-ink:#80d0f4}
+:root[data-theme=dark][data-skin=autumn]{--tint:#352b20;--accent-ink:#f4b47a}
+:root[data-theme=dark][data-skin=winter]{--tint:#252a40;--accent-ink:#afbaff}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){color-scheme:dark;--bg:#151b19;--panel:#1b2420;--ink:#e4ebe6;--muted:#a0afa5;--line:#35433a;--code:#202b24;--tint:#223023;--accent-ink:#a4d286}:root:not([data-theme])[data-skin=spring]{--tint:#35232a;--accent-ink:#f5a7ba}:root:not([data-theme])[data-skin=summer]{--tint:#1d303b;--accent-ink:#80d0f4}:root:not([data-theme])[data-skin=autumn]{--tint:#352b20;--accent-ink:#f4b47a}:root:not([data-theme])[data-skin=winter]{--tint:#252a40;--accent-ink:#afbaff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","Segoe UI",sans-serif;line-height:1.8}button,a,input{touch-action:manipulation}button{font:inherit;cursor:pointer}a{color:var(--accent-ink);text-underline-offset:3px}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}[hidden]{display:none!important}
+.skip{position:fixed;left:12px;top:-100px;z-index:30;background:var(--bg);padding:8px}.skip:focus{top:8px}
+.site-header{position:sticky;top:0;z-index:10;border-bottom:1px solid var(--line);background:var(--bg)}
+.header-inner{display:flex;align-items:center;gap:24px;min-height:68px;padding:12px var(--gutter)}
+.brand{display:flex;align-items:center;gap:10px;white-space:nowrap;text-decoration:none;font-weight:800;font-size:17px;color:var(--ink)}.brand-mark{display:grid;place-items:center;background:var(--accent);color:#fff;width:30px;height:30px;border-radius:9px}.brand small{color:var(--muted);font-size:11px;font-weight:500}
+.tabs{display:flex;align-items:center;gap:5px;flex:1;overflow-x:auto;scrollbar-width:thin}.tab{white-space:nowrap;border:0;background:transparent;color:var(--muted);padding:8px 11px;border-radius:6px;font-size:12px}.tab[aria-selected=true]{background:var(--tint);color:var(--accent-ink);font-weight:700}
+.header-tools{display:flex;gap:6px;margin-left:auto;white-space:nowrap}.tool{font-size:10px;line-height:1.6;padding:3px 7px;border:1px solid var(--line);border-radius:5px;background:var(--bg);color:var(--ink);text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.prefs-panel{position:absolute;right:var(--gutter);top:calc(100% + 8px);width:286px;padding:18px;background:var(--bg);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 36px #0002;font-size:12px}.prefs-title{font-size:14px;font-weight:800;margin-bottom:10px}.pref-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.pref-label{font-weight:600}.theme-switch{display:flex;align-items:center;gap:7px}.theme-switch input{appearance:none;width:28px;height:14px;border-radius:9px;background:#9aa89c;position:relative;cursor:pointer;margin:0 3px}.theme-switch input:before{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 5px #0004;left:-2px;top:-2px;transition:transform .15s}.theme-switch input:checked{background:var(--accent)}.theme-switch input:checked:before{transform:translateX(14px)}
+.skin-options{display:flex;gap:8px}.skin-dot{appearance:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--bg);background:var(--swatch);box-shadow:0 0 0 1px var(--line);margin:3px;cursor:pointer}.skin-dot:checked{box-shadow:0 0 0 2px var(--accent-ink)}.skin-name{display:block;font-size:10px;color:var(--muted);text-align:right}.font-controls{display:flex;align-items:center;gap:12px}.font-controls button,.reset{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:5px;padding:2px 9px;font-size:12px}.font-controls button:disabled{opacity:.35;cursor:default}.reset{margin-top:14px;width:100%;padding:6px}.prefs-note{color:var(--muted);font-size:10px;margin:10px 0 0}
+.hero{padding:40px var(--gutter) 30px;background:var(--panel)}.eyebrow{letter-spacing:.15em;font-size:10px;color:var(--accent-ink);font-weight:800}.hero h1{font-size:clamp(25px,3vw,38px);letter-spacing:-.055em;line-height:1.35;margin:8px 0 12px}.hero p{font-size:12px;color:var(--muted);margin:0}.accent-bar{height:5px;background:linear-gradient(90deg,var(--accent) 0 28%,var(--tint) 28%)}
+main{padding:30px var(--gutter) 56px;font-size:calc(15px * var(--fz));min-height:48vh}.section{display:none}.section.active{display:block}.section-layout{display:grid;grid-template-columns:clamp(230px,16vw,300px) minmax(0,1fr);gap:clamp(40px,3vw,64px)}.section-layout.no-sidebar{display:block}.on-page{font-size:12px;align-self:start;position:sticky;top:100px}.on-page strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:10px}.on-page a{display:block;text-decoration:none;color:var(--muted);padding:5px 0;border-left:2px solid var(--line);padding-left:12px}.on-page a:hover{color:var(--accent-ink);border-color:var(--accent)}.content{min-width:0}.content>:first-child{margin-top:0}.content h2{font-size:1.55em;letter-spacing:-.035em;line-height:1.4;margin:0 0 20px}.content h3{font-size:1.18em;margin:28px 0 10px;scroll-margin-top:130px}.content p{margin:12px 0}.content ul,.content ol{padding-left:25px;margin:12px 0}.content li{margin:5px 0}.content code{font-family:Consolas,"Cascadia Code",monospace;background:var(--code);padding:2px 5px;border-radius:4px;font-size:.88em;overflow-wrap:anywhere}
+.table-wrap{overflow-x:auto;max-width:100%;margin:18px 0;border:1px solid var(--line);border-radius:8px;background:var(--bg)}table{border-collapse:collapse;width:100%;font-size:.9em;text-align:left}th,td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}th{background:var(--panel);font-weight:700}tr:last-child td{border-bottom:0}.code-wrap{position:relative;margin:18px 0;border:1px solid var(--line);background:var(--code);border-radius:8px;overflow:hidden}.code-label{font-size:10px;padding:6px 14px;border-bottom:1px solid var(--line);color:var(--muted);line-height:2}.code-wrap pre{margin:0;padding:16px;overflow-x:auto;white-space:pre;line-height:1.65}.code-wrap pre code{padding:0;background:none;font-size:.85em;overflow-wrap:normal}.copy{position:absolute;right:8px;top:5px;font-size:10px;line-height:2;border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:4px;padding:0 7px}.content hr{border:0;border-top:1px solid var(--line);margin:28px 0}.content blockquote{margin:15px 0;padding:10px 16px;border-left:3px solid var(--accent);background:var(--tint)}
+.page-footer{border-top:1px solid var(--line);padding:18px var(--gutter);display:flex;justify-content:space-between;gap:12px;font-size:11px;color:var(--muted)}.page-footer a{color:var(--muted)}.empty-note{font-size:13px;color:var(--muted)}
+@media(max-width:1024px){.section-layout{display:block}.on-page{position:static;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}.on-page strong{width:100%;margin-bottom:0}.on-page a{border:1px solid var(--line);padding:3px 9px;border-radius:20px}}
+@media(max-width:900px){:root{--gutter:18px}.header-inner{flex-wrap:wrap;gap:8px 18px}.tabs{order:3;flex-basis:100%;padding-top:4px}.header-tools{margin-left:auto}.hero{padding-top:26px}.prefs-panel{top:58px}.on-page{top:auto}}
+@media(max-width:640px){:root{--gutter:16px}.brand{font-size:15px}.brand small{display:none}.tool{min-height:40px}.tab{min-height:40px}.header-inner{min-height:64px;padding-top:8px;padding-bottom:8px}.hero{padding:24px var(--gutter)}main{padding-top:24px}th,td{min-width:140px;padding:10px 12px}.prefs-panel{width:min(286px,calc(100vw - 32px));top:62px}.page-footer{flex-direction:column}}
+@media print{html{color-scheme:light!important;--bg:#fff!important;--ink:#111!important;--muted:#555!important;--line:#ccc!important;--code:#f4f4f4!important;--panel:#f7f7f7!important;--tint:#f7faf5!important;--accent-ink:#222!important;--fz:1!important}body{background:#fff!important;color:#111!important}.site-header,.on-page,.copy,.page-footer,.skip{display:none!important}.section{display:block!important;break-inside:auto;margin-bottom:28px}.section-layout{display:block}.hero{padding:0 0 20px;background:#fff}main{padding:20px 0}.accent-bar{background:#bbb}.code-wrap pre{white-space:pre-wrap;overflow-wrap:anywhere}.table-wrap{overflow:visible}table{font-size:10px}th,td{min-width:0}.code-wrap,table{break-inside:avoid}a{color:#111!important;text-decoration:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="site-header"><div class="header-inner">
+ <a class="brand" href="docs.html"><span class="brand-mark" aria-hidden="true">↗</span>캡틴 터널링 <small>가이드</small></a>
+ <nav id="tabs" class="tabs" role="tablist" aria-label="문서 섹션"></nav>
+ <div class="header-tools"><a class="tool" href="docs.html">📚 목차</a><button class="tool" id="printBtn" type="button">🖨 PDF</button><button class="tool" id="prefsBtn" type="button" aria-controls="prefsPanel" aria-expanded="false">⚙️ 설정</button></div>
+ <div class="prefs-panel" id="prefsPanel" role="dialog" aria-label="보기 설정" hidden>
+  <div class="prefs-title">⚙️ 보기 설정</div>
+  <div class="pref-row"><span class="pref-label">🌗 화면 모드</span><label class="theme-switch"><span>주간</span><input id="themeToggle" type="checkbox" role="switch" aria-label="야간 모드"><span>야간</span></label></div>
+  <div class="pref-row"><span class="pref-label">🎨 컬러 스킨</span><div><div class="skin-options" role="radiogroup" aria-label="컬러 스킨">
+   <input type="radio" class="skin-dot" name="skin" value="green" aria-label="기본" style="--swatch:#6db33f" checked>
+   <input type="radio" class="skin-dot" name="skin" value="spring" aria-label="봄" style="--swatch:#e0607e">
+   <input type="radio" class="skin-dot" name="skin" value="summer" aria-label="여름" style="--swatch:#1e9bd7">
+   <input type="radio" class="skin-dot" name="skin" value="autumn" aria-label="가을" style="--swatch:#d9731f">
+   <input type="radio" class="skin-dot" name="skin" value="winter" aria-label="겨울" style="--swatch:#4a5fc1">
+  </div><span class="skin-name" id="skinName">기본</span></div></div>
+  <div class="pref-row"><span class="pref-label">🔠 글자 크기</span><div class="font-controls"><button id="fontDown" type="button" aria-label="글자 작게">−</button><span id="fontVal" aria-live="polite">15</span><button id="fontUp" type="button" aria-label="글자 크게">+</button></div></div>
+  <button class="reset" id="resetBtn" type="button">↺ 기본값으로</button><p class="prefs-note">보기 설정은 이 브라우저에 저장됩니다.</p>
+ </div>
+</div></header>
+<div class="hero"><div class="eyebrow">CAPTAIN TUNNELING · GUIDES</div><h1>원본 리뷰와 재구성 기록</h1><p>SSH 터널의 설정부터 운영까지 필요한 정보를 확인합니다.</p></div><div class="accent-bar"></div>
+<main id="main" tabindex="-1"></main>
+<noscript><p>자바스크립트를 사용할 수 없어 마크다운 원문을 표시합니다.</p><pre># 원본 리뷰와 재구성 기록
+
+작성일: 2026-11-01
+
+## 범위
+
+원본 `legacy/20261030-IFMS터널링유틸/src/ifms_tunnel.py`의 `2026-10-30c` 판, 기존 통합 시험, 빌드 도구와 README를 검토했습니다. `legacy/`는 수정하지 않고 루트 패키지로 복사했습니다. 원본 문서의 과거 시험 통과 기록은 이번 환경의 시험 결과와 구분합니다.
+
+## 발견·조치
+
+| 우선순위 | 원본 근거 | 문제 | 새 코드 조치 |
+|---|---|---|---|
+| P2 | `Engine.start/stop/_connect`, 원본 450·459·478행 | 접속 중 중지·서버 교체 후 이전 접속이 성공하면 오래된 Transport를 등록할 수 있음 | 세대 번호·잠금으로 늦은 성공/실패를 폐기, 회귀 시험 추가 |
+| P2 | `Engine._keepalive_probe`, 원본 530행 | 이전 연결의 늦은 응답이 현재 연결의 상태를 갱신할 수 있음 | 현재 Transport와 동일할 때만 갱신 |
+| P2 | `Forwarder._handle`, 원본 697행 | 채널 개설 대기 중 중지하면 stop 시점에 등록되지 않은 채널이 뒤늦게 남을 수 있음 | 개설 전·등록 시 중지 여부를 확인하고 소켓·채널 정리 |
+| P2 | `read_config`, 원본 228행 / `Engine._run`, 원본 539행 | 포트 범위·중복·keepalive 값이 검증되지 않아 서비스 루프 또는 supervisor가 중단될 수 있음 | 실행 전 JSON 구조·값 검증, 잘못된 설정은 이전 설정 유지 |
+| P3 | 원본 `build.py`·상대 경로 실행 | 개발·배포·로그·개인 설정과 원본 소스가 섞이고 재실행이 단일 파일 경로에 결합됨 | 패키지·진입점·데이터·시험·시각별 빌드 출력 분리 |
+
+회귀 시험은 `tests/test_lifecycle.py`와 `tests/test_configuration.py`에 있습니다. 기존 중계 시험은 `tests/integration_engine.py`로 이관했습니다.
+
+## 기능 보존
+
+- 기존 IFMS 서버·표준 터널 목록, 이름 자연 정렬, 망별 표시 설정을 유지합니다.
+- 비밀번호·키 인증, 호스트 키 대조, DPAPI, GUI·headless·서비스 기능을 유지합니다.
+- 제품·서비스·Run 값·뮤텍스·설정 이름을 캡틴 터널링으로 분리합니다.
+- 원본 운영 설정·암호·로그는 자동 이관하지 않습니다.
+
+## 검증 상태
+
+2026-11-01 현재 환경에서 다음을 확인했습니다.
+
+| 항목 | 결과 | 방법·한계 |
+|---|---|---|
+| 필수 파일 | 통과 | 소스·문서·설정·시험·도구 27개 존재 확인 |
+| 문서 상대 링크 | 통과 | 루트 문서와 docs의 링크 25개 대상 확인 |
+| 설정 예제 | 통과 | JSON 파싱과 비밀번호 미포함 확인 |
+| 기존 IFMS 목록 보존 | 통과 | 원본과 새 코드의 `STD_TUNNELS` 블록 비교, 개행만 정규화 |
+| 아이콘 보존 | 통과 | `icons_data.py`와 ICO의 SHA-256 일치 |
+| 제품 식별자 분리 | 통과 | 새 코드에서 기존 서비스·Run·설정 식별자 잔존 여부 검사 |
+| Git 제외 규칙 | 통과 | 실행 데이터·배포 EXE·legacy에 대해 `git check-ignore` 확인 |
+| PowerShell 점검 파일 문법 | 통과 | PowerShell 파서로 검사, 파일 실행은 하지 않음 |
+| Python 단위·회귀 시험 | 미실행 | 기본 Python 실행 불가. 16개 시험 메서드 작성, 통과 여부 미확인 |
+| 기존 통합 시험 이관본 | 미실행 | Python·의존성 실행 환경 없음 |
+| EXE 빌드·GUI 실행 | 미실행 | Python·빌드 실행 환경 없음 |
+| 서비스 설치·재부팅·실제 IFMS 접속 | 미실행 | 이번 작업에서 수행하지 않음 |
+
+PowerShell `.ps1` 실행은 시스템 정책으로 차단되어 구조 검사는 허용된 읽기 전용 명령으로 수행했습니다. 임시 Python 실행 환경 다운로드도 네트워크 연결 제한으로 실패했습니다. 정책 변경이나 실행 제한 우회는 하지 않았습니다. 위 정적 검증은 Python 구문 검사·실행 시험·실제 서비스 동작의 통과를 의미하지 않습니다.
+
+## 가이드 MD·HTML 구성 — 2026-11-01
+
+- IFMS·슈퍼브챗의 `GLANCE.md`와 `docs/tools/md_to_html.py`를 확인한 뒤 같은 화면 구성을 적용했습니다.
+- `docs/`의 가이드 6개를 같은 이름의 MD·HTML 쌍으로 관리합니다. 별도 네트워크 요청 없이 HTML 하나로 본문·스타일·설정이 동작하도록 구성했습니다.
+- 우측 상단 목차·PDF·설정, 주간/야간·5가지 스킨·12~20px 글자 크기·저장/초기화, 섹션 탭·코드 복사·인쇄용 스타일을 추가했습니다.
+- MD 본문과 템플릿을 기반으로 HTML 전체를 재생성하는 도구와 변경 없는 동기화 검사, 문서 시험·브라우저 검사 도구를 추가했습니다.
+- 정적 검증에서 가이드 6쌍의 내장 MD 원문 일치, 문서 상대 링크 29개, 설정 패널·5개 스킨·글자 크기·인쇄 요소와 미치환 표식 부재를 확인했습니다. Python 실행 대신 허용된 PowerShell 명령으로 생성·대조했습니다.
+- Chrome 미리보기는 현재 실행 환경의 GPU 프로세스 오류로 완료하지 못했습니다. 시각·상호작용 검증 통과로 기록하지 않습니다. Python 문서 시험도 기존 환경 제약으로 미실행입니다.
+
+## 남은 사항
+
+- 실제 Windows 배포 PC에서 GUI·고DPI·서비스 설치·재부팅 검증이 필요합니다.
+- PC 범위 DPAPI와 LocalSystem 서비스가 사용하는 폴더는 접근 권한을 관리해야 합니다. 기존 서비스 권한 정책을 유지했습니다.
+- `application.py`에 GUI·엔진·서비스가 함께 있습니다. 별도 모듈로 추가 분리하려면 기존 통합 시험의 동등성을 먼저 확보합니다.
+- 사용자 known_hosts와 서비스용 known_hosts의 동기화는 기존 정책을 유지했습니다. 서버 교체 시 지문 확인 절차가 필요합니다.
+</pre></noscript>
+<footer class="page-footer"><span>캡틴 터널링 가이드</span><a href="review.md">마크다운 원문 보기 ↗</a></footer>
+<script id="guide-source" type="text/plain">IyDsm5Drs7gg66as67ew7JmAIOyerOq1rOyEsSDquLDroZ0KCuyekeyEseydvDogMjAyNi0xMS0wMQoKIyMg67KU7JyECgrsm5Drs7ggYGxlZ2FjeS8yMDI2MTAzMC1JRk1T7YSw64SQ66eB7Jyg7Yu4L3NyYy9pZm1zX3R1bm5lbC5weWDsnZggYDIwMjYtMTAtMzBjYCDtjJAsIOq4sOyhtCDthrXtlakg7Iuc7ZeYLCDruYzrk5wg64+E6rWs7JmAIFJFQURNReulvCDqsoDthqDtlojsirXri4jri6QuIGBsZWdhY3kvYOuKlCDsiJjsoJXtlZjsp4Ag7JWK6rOgIOujqO2KuCDtjKjtgqTsp4DroZwg67O17IKs7ZaI7Iq164uI64ukLiDsm5Drs7gg66y47ISc7J2YIOqzvOqxsCDsi5ztl5gg7Ya16rO8IOq4sOuhneydgCDsnbTrsogg7ZmY6rK97J2YIOyLnO2XmCDqsrDqs7zsmYAg6rWs67aE7ZWp64uI64ukLgoKIyMg67Cc6rKswrfsobDsuZgKCnwg7Jqw7ISg7Iic7JyEIHwg7JuQ67O4IOq3vOqxsCB8IOusuOygnCB8IOyDiCDsvZTrk5wg7KGw7LmYIHwKfC0tLXwtLS18LS0tfC0tLXwKfCBQMiB8IGBFbmdpbmUuc3RhcnQvc3RvcC9fY29ubmVjdGAsIOybkOuzuCA0NTDCtzQ1OcK3NDc47ZaJIHwg7KCR7IaNIOykkSDspJHsp4DCt+yEnOuyhCDqtZDssrQg7ZuEIOydtOyghCDsoJHsho3snbQg7ISx6rO17ZWY66m0IOyYpOuemOuQnCBUcmFuc3BvcnTrpbwg65Ox66Gd7ZWgIOyImCDsnojsnYwgfCDshLjrjIAg67KI7Zi4wrfsnqDquIjsnLzroZwg64qm7J2AIOyEseqztS/si6TtjKjrpbwg7Y+Q6riwLCDtmozqt4Ag7Iuc7ZeYIOy2lOqwgCB8CnwgUDIgfCBgRW5naW5lLl9rZWVwYWxpdmVfcHJvYmVgLCDsm5Drs7ggNTMw7ZaJIHwg7J207KCEIOyXsOqysOydmCDriqbsnYAg7J2R64u17J20IO2YhOyerCDsl7DqsrDsnZgg7IOB7YOc66W8IOqwseyLoO2VoCDsiJgg7J6I7J2MIHwg7ZiE7J6sIFRyYW5zcG9ydOyZgCDrj5nsnbztlaAg65WM66eMIOqwseyLoCB8CnwgUDIgfCBgRm9yd2FyZGVyLl9oYW5kbGVgLCDsm5Drs7ggNjk37ZaJIHwg7LGE64SQIOqwnOyEpCDrjIDquLAg7KSRIOykkeyngO2VmOuptCBzdG9wIOyLnOygkOyXkCDrk7HroZ3rkJjsp4Ag7JWK7J2AIOyxhOuEkOydtCDrkqTriqbqsowg64Ko7J2EIOyImCDsnojsnYwgfCDqsJzshKQg7KCEwrfrk7HroZ0g7IucIOykkeyngCDsl6zrtoDrpbwg7ZmV7J247ZWY6rOgIOyGjOy8k8K37LGE64SQIOygleumrCB8CnwgUDIgfCBgcmVhZF9jb25maWdgLCDsm5Drs7ggMjI47ZaJIC8gYEVuZ2luZS5fcnVuYCwg7JuQ67O4IDUzOe2WiSB8IO2PrO2KuCDrspTsnITCt+ykkeuztcK3a2VlcGFsaXZlIOqwkuydtCDqsoDspp3rkJjsp4Ag7JWK7JWEIOyEnOu5hOyKpCDro6jtlIQg65iQ64qUIHN1cGVydmlzb3LqsIAg7KSR64uo65CgIOyImCDsnojsnYwgfCDsi6Ttlokg7KCEIEpTT04g6rWs7KGwwrfqsJIg6rKA7KadLCDsnpjrqrvrkJwg7ISk7KCV7J2AIOydtOyghCDshKTsoJUg7Jyg7KeAIHwKfCBQMyB8IOybkOuzuCBgYnVpbGQucHlgwrfsg4HrjIAg6rK966GcIOyLpO2WiSB8IOqwnOuwnMK367Cw7Y+swrfroZzqt7jCt+qwnOyduCDshKTsoJXqs7wg7JuQ67O4IOyGjOyKpOqwgCDshJ7snbTqs6Ag7J6s7Iuk7ZaJ7J20IOuLqOydvCDtjIzsnbwg6rK966Gc7JeQIOqysO2VqeuQqCB8IO2MqO2CpOyngMK37KeE7J6F7KCQwrfrjbDsnbTthLDCt+yLnO2XmMK37Iuc6rCB67OEIOu5jOuTnCDstpzroKUg67aE66asIHwKCu2ajOq3gCDsi5ztl5jsnYAgYHRlc3RzL3Rlc3RfbGlmZWN5Y2xlLnB5YOyZgCBgdGVzdHMvdGVzdF9jb25maWd1cmF0aW9uLnB5YOyXkCDsnojsirXri4jri6QuIOq4sOyhtCDspJHqs4Qg7Iuc7ZeY7J2AIGB0ZXN0cy9pbnRlZ3JhdGlvbl9lbmdpbmUucHlg66GcIOydtOq0gO2WiOyKteuLiOuLpC4KCiMjIOq4sOuKpSDrs7TsobQKCi0g6riw7KG0IElGTVMg7ISc67KEwrftkZzspIAg7YSw64SQIOuqqeuhnSwg7J2066aEIOyekOyXsCDsoJXroKwsIOunneuzhCDtkZzsi5wg7ISk7KCV7J2EIOycoOyngO2VqeuLiOuLpC4KLSDruYTrsIDrsojtmLjCt+2CpCDsnbjspp0sIO2YuOyKpO2KuCDtgqQg64yA7KGwLCBEUEFQSSwgR1VJwrdoZWFkbGVzc8K37ISc67mE7IqkIOq4sOuKpeydhCDsnKDsp4Dtlanri4jri6QuCi0g7KCc7ZKIwrfshJzruYTsiqTCt1J1biDqsJLCt+uupO2FjeyKpMK37ISk7KCVIOydtOumhOydhCDsuqHti7Qg7YSw64SQ66eB7Jy866GcIOu2hOumrO2VqeuLiOuLpC4KLSDsm5Drs7gg7Jq07JiBIOyEpOyglcK37JWU7Zi4wrfroZzqt7jripQg7J6Q64+ZIOydtOq0gO2VmOyngCDslYrsirXri4jri6QuCgojIyDqsoDspp0g7IOB7YOcCgoyMDI2LTExLTAxIO2YhOyerCDtmZjqsr3sl5DshJwg64uk7J2M7J2EIO2ZleyduO2WiOyKteuLiOuLpC4KCnwg7ZWt66qpIHwg6rKw6rO8IHwg67Cp67KVwrftlZzqs4QgfAp8LS0tfC0tLXwtLS18Cnwg7ZWE7IiYIO2MjOydvCB8IO2GteqzvCB8IOyGjOyKpMK366y47IScwrfshKTsoJXCt+yLnO2XmMK364+E6rWsIDI36rCcIOyhtOyerCDtmZXsnbggfAp8IOusuOyEnCDsg4HrjIAg66eB7YGsIHwg7Ya16rO8IHwg66Oo7Yq4IOusuOyEnOyZgCBkb2Nz7J2YIOunge2BrCAyNeqwnCDrjIDsg4Eg7ZmV7J24IHwKfCDshKTsoJUg7JiI7KCcIHwg7Ya16rO8IHwgSlNPTiDtjIzsi7Hqs7wg67mE67CA67KI7Zi4IOuvuO2PrO2VqCDtmZXsnbggfAp8IOq4sOyhtCBJRk1TIOuqqeuhnSDrs7TsobQgfCDthrXqs7wgfCDsm5Drs7jqs7wg7IOIIOy9lOuTnOydmCBgU1REX1RVTk5FTFNgIOu4lOuhnSDruYTqtZAsIOqwnO2WieunjCDsoJXqt5ztmZQgfAp8IOyVhOydtOy9mCDrs7TsobQgfCDthrXqs7wgfCBgaWNvbnNfZGF0YS5weWDsmYAgSUNP7J2YIFNIQS0yNTYg7J287LmYIHwKfCDsoJztkogg7Iud67OE7J6QIOu2hOumrCB8IO2GteqzvCB8IOyDiCDsvZTrk5zsl5DshJwg6riw7KG0IOyEnOu5hOyKpMK3UnVuwrfshKTsoJUg7Iud67OE7J6QIOyelOyhtCDsl6zrtoAg6rKA7IKsIHwKfCBHaXQg7KCc7Jm4IOq3nOy5mSB8IO2GteqzvCB8IOyLpO2WiSDrjbDsnbTthLDCt+uwsO2PrCBFWEXCt2xlZ2FjeeyXkCDrjIDtlbQgYGdpdCBjaGVjay1pZ25vcmVgIO2ZleyduCB8CnwgUG93ZXJTaGVsbCDsoJDqsoAg7YyM7J28IOusuOuylSB8IO2GteqzvCB8IFBvd2VyU2hlbGwg7YyM7ISc66GcIOqygOyCrCwg7YyM7J28IOyLpO2WieydgCDtlZjsp4Ag7JWK7J2MIHwKfCBQeXRob24g64uo7JyEwrftmozqt4Ag7Iuc7ZeYIHwg66+47Iuk7ZaJIHwg6riw67O4IFB5dGhvbiDsi6Ttlokg67aI6rCALiAxNuqwnCDsi5ztl5gg66mU7ISc65OcIOyekeyEsSwg7Ya16rO8IOyXrOu2gCDrr7jtmZXsnbggfAp8IOq4sOyhtCDthrXtlakg7Iuc7ZeYIOydtOq0gOuzuCB8IOuvuOyLpO2WiSB8IFB5dGhvbsK37J2Y7KG07ISxIOyLpO2WiSDtmZjqsr0g7JeG7J2MIHwKfCBFWEUg67mM65OcwrdHVUkg7Iuk7ZaJIHwg66+47Iuk7ZaJIHwgUHl0aG9uwrfruYzrk5wg7Iuk7ZaJIO2ZmOqyvSDsl4bsnYwgfAp8IOyEnOu5hOyKpCDshKTsuZjCt+yerOu2gO2MhcK37Iuk7KCcIElGTVMg7KCR7IaNIHwg66+47Iuk7ZaJIHwg7J2067KIIOyekeyXheyXkOyEnCDsiJjtlontlZjsp4Ag7JWK7J2MIHwKClBvd2VyU2hlbGwgYC5wczFgIOyLpO2WieydgCDsi5zsiqTthZwg7KCV7LGF7Jy866GcIOywqOuLqOuQmOyWtCDqtazsobAg6rKA7IKs64qUIO2XiOyaqeuQnCDsnb3quLAg7KCE7JqpIOuqheugueycvOuhnCDsiJjtlontlojsirXri4jri6QuIOyehOyLnCBQeXRob24g7Iuk7ZaJIO2ZmOqyvSDri6TsmrTroZzrk5zrj4Qg64Sk7Yq47JuM7YGsIOyXsOqysCDsoJztlZzsnLzroZwg7Iuk7Yyo7ZaI7Iq164uI64ukLiDsoJXssYUg67OA6rK97J2064KYIOyLpO2WiSDsoJztlZwg7Jqw7ZqM64qUIO2VmOyngCDslYrslZjsirXri4jri6QuIOychCDsoJXsoIEg6rKA7Kad7J2AIFB5dGhvbiDqtazrrLgg6rKA7IKswrfsi6Ttlokg7Iuc7ZeYwrfsi6TsoJwg7ISc67mE7IqkIOuPmeyekeydmCDthrXqs7zrpbwg7J2Y66+47ZWY7KeAIOyViuyKteuLiOuLpC4KCiMjIOqwgOydtOuTnCBNRMK3SFRNTCDqtazshLEg4oCUIDIwMjYtMTEtMDEKCi0gSUZNU8K37IqI7Y2867iM7LGX7J2YIGBHTEFOQ0UubWRg7JmAIGBkb2NzL3Rvb2xzL21kX3RvX2h0bWwucHlg66W8IO2ZleyduO2VnCDrkqQg6rCZ7J2AIO2ZlOuptCDqtazshLHsnYQg7KCB7Jqp7ZaI7Iq164uI64ukLgotIGBkb2NzL2DsnZgg6rCA7J2065OcIDbqsJzrpbwg6rCZ7J2AIOydtOumhOydmCBNRMK3SFRNTCDsjI3snLzroZwg6rSA66as7ZWp64uI64ukLiDrs4Trj4Qg64Sk7Yq47JuM7YGsIOyalOyyrSDsl4bsnbQgSFRNTCDtlZjrgpjroZwg67O466y4wrfsiqTtg4DsnbzCt+yEpOygleydtCDrj5nsnpHtlZjrj4TroZ0g6rWs7ISx7ZaI7Iq164uI64ukLgotIOyasOy4oSDsg4Hri6gg66qp7LCowrdQREbCt+yEpOyglSwg7KO86rCEL+yVvOqwhMK3NeqwgOyngCDsiqTtgqjCtzEyfjIwcHgg6riA7J6QIO2BrOq4sMK37KCA7J6lL+y0iOq4sO2ZlCwg7IS57IWYIO2DrcK37L2U65OcIOuzteyCrMK37J247IeE7JqpIOyKpO2DgOydvOydhCDstpTqsIDtlojsirXri4jri6QuCi0gTUQg67O466y46rO8IO2FnO2UjOumv+ydhCDquLDrsJjsnLzroZwgSFRNTCDsoITssrTrpbwg7J6s7IOd7ISx7ZWY64qUIOuPhOq1rOyZgCDrs4Dqsr0g7JeG64qUIOuPmeq4sO2ZlCDqsoDsgqwsIOusuOyEnCDsi5ztl5jCt+u4jOudvOyasOyggCDqsoDsgqwg64+E6rWs66W8IOy2lOqwgO2WiOyKteuLiOuLpC4KLSDsoJXsoIEg6rKA7Kad7JeQ7IScIOqwgOydtOuTnCA27IyN7J2YIOuCtOyepSBNRCDsm5DrrLgg7J287LmYLCDrrLjshJwg7IOB64yAIOunge2BrCAyOeqwnCwg7ISk7KCVIO2MqOuEkMK3NeqwnCDsiqTtgqjCt+q4gOyekCDtgazquLDCt+yduOyHhCDsmpTshozsmYAg66+47LmY7ZmYIO2RnOyLnSDrtoDsnqzrpbwg7ZmV7J247ZaI7Iq164uI64ukLiBQeXRob24g7Iuk7ZaJIOuMgOyLoCDtl4jsmqnrkJwgUG93ZXJTaGVsbCDrqoXroLnsnLzroZwg7IOd7ISxwrfrjIDsobDtlojsirXri4jri6QuCi0gQ2hyb21lIOuvuOumrOuztOq4sOuKlCDtmITsnqwg7Iuk7ZaJIO2ZmOqyveydmCBHUFUg7ZSE66Gc7IS47IqkIOyYpOulmOuhnCDsmYTro4ztlZjsp4Ag66q77ZaI7Iq164uI64ukLiDsi5zqsIHCt+yDge2YuOyekeyaqSDqsoDspp0g7Ya16rO866GcIOq4sOuhne2VmOyngCDslYrsirXri4jri6QuIFB5dGhvbiDrrLjshJwg7Iuc7ZeY64+EIOq4sOyhtCDtmZjqsr0g7KCc7JW97Jy866GcIOuvuOyLpO2WieyeheuLiOuLpC4KCiMjIOuCqOydgCDsgqztla0KCi0g7Iuk7KCcIFdpbmRvd3Mg67Cw7Y+sIFBD7JeQ7IScIEdVScK36rOgRFBJwrfshJzruYTsiqQg7ISk7LmYwrfsnqzrtoDtjIUg6rKA7Kad7J20IO2VhOyalO2VqeuLiOuLpC4KLSBQQyDrspTsnIQgRFBBUEnsmYAgTG9jYWxTeXN0ZW0g7ISc67mE7Iqk6rCAIOyCrOyaqe2VmOuKlCDtj7TrjZTripQg7KCR6re8IOq2jO2VnOydhCDqtIDrpqztlbTslbwg7ZWp64uI64ukLiDquLDsobQg7ISc67mE7IqkIOq2jO2VnCDsoJXssYXsnYQg7Jyg7KeA7ZaI7Iq164uI64ukLgotIGBhcHBsaWNhdGlvbi5weWDsl5AgR1VJwrfsl5Tsp4TCt+yEnOu5hOyKpOqwgCDtlajqu5gg7J6I7Iq164uI64ukLiDrs4Trj4Qg66qo65OI66GcIOy2lOqwgCDrtoTrpqztlZjroKTrqbQg6riw7KG0IO2Gte2VqSDsi5ztl5jsnZgg64+Z65Ox7ISx7J2EIOuovOyggCDtmZXrs7Ttlanri4jri6QuCi0g7IKs7Jqp7J6QIGtub3duX2hvc3Rz7JmAIOyEnOu5hOyKpOyaqSBrbm93bl9ob3N0c+ydmCDrj5nquLDtmZTripQg6riw7KG0IOygleyxheydhCDsnKDsp4DtlojsirXri4jri6QuIOyEnOuyhCDqtZDssrQg7IucIOyngOusuCDtmZXsnbgg7KCI7LCo6rCAIO2VhOyalO2VqeuLiOuLpC4K</script>
+<script>
+'use strict';
+const root=document.documentElement, prefKey='captain-tunnel-guide-';
+const byId=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#x27;');}
+function safeHref(href){return /^(?:javascript|data|vbscript):/i.test(href.trim())?'#':href.replace(/\.md(?=#|$)/i,'.html').replace(/^\.\.\/README\.html/i,'../README.md').replace(/^\.\.\/AGENTS\.html/i,'../AGENTS.md').replace(/^\.\.\/GLANCE\.html/i,'../GLANCE.md');}
+function inline(raw){
+ const saved=[];let s=raw.replace(/`([^`]+)`/g,(_,code)=>{saved.push('<code>'+esc(code)+'</code>');return '\u0000'+(saved.length-1)+'\u0000';});
+ s=esc(s).replace(/\[([^\]]+)\]\(([^)]+)\)/g,(_,label,href)=>'<a href="'+esc(safeHref(href.replace(/&amp;/g,'&')))+'">'+label+'</a>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+ return s.replace(/\u0000(\d+)\u0000/g,(_,n)=>saved[Number(n)]);
+}
+let headingCounter=0;
+function headingId(text){return 'h-'+(++headingCounter)+'-'+text.replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'');}
+function cells(line){return line.trim().replace(/^\|/,'').replace(/\|$/,'').split('|').map(s=>s.trim());}
+function renderMarkdown(source){
+ const lines=source.replace(/\r\n?/g,'\n').split('\n'), out=[];let i=0;
+ const boundary=s=>/^\s*$|^#{1,6}\s|^```|^\s*[-*]\s|^\s*\d+\.\s|^-{3,}\s*$/.test(s);
+ while(i<lines.length){const line=lines[i];if(!line.trim()){i++;continue;}
+  if(/^```/.test(line)){const lang=line.slice(3).trim();const code=[];i++;while(i<lines.length&&!/^```\s*$/.test(lines[i]))code.push(lines[i++]);if(i<lines.length)i++;out.push('<div class="code-wrap"><div class="code-label">'+esc(lang||'text')+'</div><button class="copy" type="button">📋 복사</button><pre><code>'+esc(code.join('\n'))+'</code></pre></div>');continue;}
+  const h=line.match(/^(#{1,6})\s+(.*)$/);if(h){const level=h[1].length;out.push('<h'+level+' id="'+headingId(h[2])+'">'+inline(h[2])+'</h'+level+'>');i++;continue;}
+  if(i+1<lines.length&&line.includes('|')&&/^\s*\|?\s*:?-{2,}/.test(lines[i+1])){const head=cells(line);i+=2;let rows='';while(i<lines.length&&lines[i].trim()&&lines[i].includes('|')){rows+='<tr>'+cells(lines[i++]).map(c=>'<td>'+inline(c)+'</td>').join('')+'</tr>';}out.push('<div class="table-wrap"><table><thead><tr>'+head.map(c=>'<th scope="col">'+inline(c)+'</th>').join('')+'</tr></thead><tbody>'+rows+'</tbody></table></div>');continue;}
+  const li=line.match(/^\s*([-*]|\d+\.)\s+(.*)$/);if(li){const ordered=/\d/.test(li[1]), tag=ordered?'ol':'ul', items=[];while(i<lines.length){const m=lines[i].match(/^\s*([-*]|\d+\.)\s+(.*)$/);if(!m||/\d/.test(m[1])!==ordered)break;items.push('<li>'+inline(m[2])+'</li>');i++;}out.push('<'+tag+'>'+items.join('')+'</'+tag+'>');continue;}
+  if(/^-{3,}\s*$/.test(line)){out.push('<hr>');i++;continue;}
+  if(/^>\s?/.test(line)){out.push('<blockquote>'+inline(line.replace(/^>\s?/,''))+'</blockquote>');i++;continue;}
+  const para=[line];i++;while(i<lines.length&&!boundary(lines[i])&&!(i+1<lines.length&&lines[i].includes('|')&&/^\s*\|?\s*:?-{2,}/.test(lines[i+1])))para.push(lines[i++]);out.push('<p>'+inline(para.join(' '))+'</p>');
+ }return out.join('\n');
+}
+function renderGuide(){
+ const source=new TextDecoder('utf-8').decode(Uint8Array.from(atob(byId('guide-source').textContent.trim()),c=>c.charCodeAt(0)));
+ const lines=source.replace(/\r\n?/g,'\n').split('\n');let fenced=false;const groups=[];let current={title:'개요',lines:[]};let removedTitle=false;
+ for(const line of lines){if(/^```/.test(line))fenced=!fenced;if(!fenced&&!removedTitle&&/^#\s/.test(line)){removedTitle=true;continue;}if(!fenced&&/^##\s/.test(line)){if(current.lines.some(s=>s.trim()))groups.push(current);current={title:line.slice(3).trim(),lines:[]};}else current.lines.push(line);}
+ if(current.lines.some(s=>s.trim())||!groups.length)groups.push(current);
+ groups.forEach((g,n)=>{const id='section-'+(n+1);const tab=document.createElement('button');tab.type='button';tab.className='tab';tab.id='tab-'+id;tab.setAttribute('role','tab');tab.setAttribute('aria-controls',id);tab.textContent=g.title;tab.addEventListener('click',()=>activate(id));byId('tabs').append(tab);
+  const section=document.createElement('section');section.className='section';section.id=id;section.setAttribute('role','tabpanel');section.setAttribute('aria-labelledby',tab.id);section.innerHTML='<div class="section-layout no-sidebar"><div class="content"><h2>'+inline(g.title)+'</h2>'+renderMarkdown(g.lines.join('\n'))+'</div></div>';
+  const sub=section.querySelectorAll('.content h3');if(sub.length>=2){const aside=document.createElement('nav');aside.className='on-page';aside.setAttribute('aria-label','이 섹션의 목차');aside.innerHTML='<strong>On this page</strong>'+Array.from(sub).map(h=>'<a href="#'+encodeURIComponent(h.id)+'">'+esc(h.textContent)+'</a>').join('');const layout=section.firstElementChild;layout.classList.remove('no-sidebar');layout.prepend(aside);}byId('main').append(section);
+ });
+ document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const text=button.parentElement.querySelector('code').textContent;try{await navigator.clipboard.writeText(text);button.textContent='✓ 복사됨';}catch(e){const area=document.createElement('textarea');area.value=text;document.body.append(area);area.select();const copied=document.execCommand('copy');area.remove();button.textContent=copied?'✓ 복사됨':'복사 불가';}setTimeout(()=>button.textContent='📋 복사',1500);}));
+ activateFromHash();
+}
+function activate(id,update=true){const section=byId(id);if(!section)return;document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s===section));document.querySelectorAll('.tab').forEach(t=>{const on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;});if(update)history.replaceState(null,'','#'+id);}
+function activateFromHash(){let id='';try{id=decodeURIComponent(location.hash.slice(1));}catch(e){}const target=byId(id);const section=target?.closest('.section')||document.querySelector('.section');if(section){activate(section.id,false);if(target&&target!==section)requestAnimationFrame(()=>target.scrollIntoView());}}
+window.addEventListener('hashchange',activateFromHash);
+byId('tabs').addEventListener('keydown',e=>{const tabs=Array.from(document.querySelectorAll('.tab'));let n=tabs.indexOf(document.activeElement);if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)||n<0)return;e.preventDefault();n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(n+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;tabs[n].focus();tabs[n].click();});
+function isDark(){return root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;}
+function fontSize(){return Math.round((parseFloat(root.style.getPropertyValue('--fz'))||1)*15);}
+function savePref(key,value){try{localStorage.setItem(prefKey+key,String(value));}catch(e){}}
+function syncPrefs(){byId('themeToggle').checked=isDark();const skin=root.dataset.skin||'green';document.querySelectorAll('.skin-dot').forEach(s=>{s.checked=s.value===skin;if(s.checked)byId('skinName').textContent=s.getAttribute('aria-label');});const f=fontSize();byId('fontVal').textContent=f;byId('fontDown').disabled=f<=12;byId('fontUp').disabled=f>=20;}
+function togglePrefs(open){const panel=byId('prefsPanel');open=open===undefined?panel.hidden:open;panel.hidden=!open;byId('prefsBtn').setAttribute('aria-expanded',String(open));if(open)byId('themeToggle').focus();}
+byId('prefsBtn').addEventListener('click',()=>togglePrefs());
+byId('themeToggle').addEventListener('change',e=>{root.dataset.theme=e.target.checked?'dark':'light';savePref('theme',root.dataset.theme);syncPrefs();});
+document.querySelectorAll('.skin-dot').forEach(s=>s.addEventListener('change',()=>{if(s.value==='green')delete root.dataset.skin;else root.dataset.skin=s.value;savePref('skin',s.value);syncPrefs();}));
+function stepFont(delta){const f=Math.max(12,Math.min(20,fontSize()+delta));root.style.setProperty('--fz',f/15);savePref('font',f);syncPrefs();}
+byId('fontDown').addEventListener('click',()=>stepFont(-1));byId('fontUp').addEventListener('click',()=>stepFont(1));
+byId('resetBtn').addEventListener('click',()=>{delete root.dataset.theme;delete root.dataset.skin;root.style.removeProperty('--fz');try{['theme','skin','font'].forEach(k=>localStorage.removeItem(prefKey+k));}catch(e){}syncPrefs();});
+byId('printBtn').addEventListener('click',()=>window.print());
+document.addEventListener('click',e=>{if(!byId('prefsPanel').hidden&&!byId('prefsPanel').contains(e.target)&&!byId('prefsBtn').contains(e.target)){togglePrefs(false);byId('prefsBtn').focus();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!byId('prefsPanel').hidden){togglePrefs(false);byId('prefsBtn').focus();}});
+matchMedia('(prefers-color-scheme:dark)').addEventListener('change',syncPrefs);
+renderGuide();syncPrefs();document.documentElement.dataset.guideReady='true';
+</script>
+</body>
+</html>

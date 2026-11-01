@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "captain-tunnel"
+version = "0.1.0"
+description = "캡틴 터널링 — Windows SSH 터널 관리 도구"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["paramiko>=3.4,<5", "pywin32>=306; sys_platform == 'win32'"]
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6,<7"]
+
+[project.scripts]
+captain-tunnel = "captain_tunnel.cli:main"
+
+[project.gui-scripts]
+captain-tunnel-gui = "captain_tunnel.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+captain_tunnel = ["assets/*.ico"]

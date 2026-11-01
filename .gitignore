@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+data/
+logs/
+*.spec
+captain_tunnel.json
+known_hosts
+service_status.json
+config.ini
+.env
+.who
+# Imported binaries and original evidence remain local.
+legacy/
